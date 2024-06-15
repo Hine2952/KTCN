@@ -1,43 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout" >
 <head>
     <title>Tạo Nhân Viên mới</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
+<section layout:fragment="content">
 <div class="container mt-5">
     <h1 class="mb-4">Tạo Nhân Viên mới</h1>
-    <form action="#" th:action="@{/nhanviens}" th:object="${nhanvien}" method="post">
-        <div class="form-group">
-            <label>Mã NV:</label>
-            <input type="text" class="form-control" th:field="*{ma_NV}"/>
+    <form th:action="@{/nhanviens/add}" th:object="${nhanvien}" method="post"
+          class="needs-validation" novalidate>
+        <div class="mb-3">
+            <label for="Ma_NV" class="form-label">Mã NV:</label>
+            <input type="text" th:field="*{Ma_NV}" class="form-control" id="Ma_NV"
+                   required>
+            <div class="text-danger" th:if="${#fields.hasErrors('Ma_NV')}"
+                 th:errors="*{Ma_NV}"></div>
         </div>
-        <div class="form-group">
-            <label>Tên NV:</label>
-            <input type="text" class="form-control" th:field="*{ten_NV}"/>
+        <div class="mb-3">
+            <label for="ten_NV" class="form-label">Tên:</label>
+            <input type="text" th:field="*{ten_NV}" class="form-control" id="ten_NV"
+                   required>
         </div>
-        <div class="form-group">
-            <label>Phái:</label>
-            <input type="text" class="form-control" th:field="*{phai}"/>
+        <div class="mb-3">
+            <label for="phai" class="form-label">Giới Tính(NU/NAM):</label>
+            <input th:field="*{phai}" class="form-control" id="phai" required>
         </div>
-        <div class="form-group">
-            <label>Nơi Sinh:</label>
-            <input type="text" class="form-control" th:field="*{noiSinh}"/>
+        <div class="mb-3">
+            <label for="noi_Sinh" class="form-label">Nơi Sinh:</label>
+            <input th:field="*{noi_Sinh}" class="form-control" id="noi_Sinh" required>
         </div>
-        <div class="form-group">
-            <label>Mã Phòng:</label>
-            <input type="text" class="form-control" th:field="*{ma_Phong}"/>
+        <div class="mb-3">
+            <label for="Ma_Phong" class="form-label">Phòng Ban:</label>
+            <select th:field="*{Ma_Phong}" class="form-control" id="Ma_Phong">
+                <option th:each="Phong_Ban : ${phongban}"
+                        th:value="${Phong_Ban.Ma_Phong}" th:text="${Phong_Ban.Ten_Phong}"></option>
+            </select>
         </div>
-        <div class="form-group">
-            <label>Lương:</label>
-            <input type="number" class="form-control" th:field="*{luong}"/>
+        <div class="mb-3">
+            <label for="luong" class="form-label">Lương:</label>
+            <input th:field="*{luong}" class="form-control" id="luong" required>
         </div>
-        <button type="submit" class="btn btn-success">Lưu</button>
-        <a href="/nhanviens" class="btn btn-secondary">Trở về danh sách</a>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+        <a th:href="@{/nhanviens/nhanviens}" class="btn btn-link">Hủy</a>
     </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</section>
 </body>
 </html>

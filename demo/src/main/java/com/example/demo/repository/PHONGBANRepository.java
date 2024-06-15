@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PHONGBANRepository extends JpaRepository<PHONGBAN, Long> {
+public interface PHONGBANRepository extends JpaRepository<PHONGBAN, String> {
 
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -15,5 +17,8 @@ public class PHONGBANService {
 
     public List<PHONGBAN> getAllPhongBan() {
         return phongbanRepository.findAll();
+    }
+    public Optional<PHONGBAN> getCategoryById(String id) {
+        return phongbanRepository.findById(id);
     }
 }

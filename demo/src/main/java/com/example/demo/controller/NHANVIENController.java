@@ -5,6 +5,7 @@ import com.example.demo.service.NHANVIENService;
 import com.example.demo.service.PHONGBANService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,22 +19,30 @@ public class NHANVIENController {
     @Autowired
     private PHONGBANService PhongBanService;
     @GetMapping("/nhanviens")
-    public String showProductList(Model model) {
-        model.addAttribute("nhanviens", nhanvienService.getAllNhanviens());
+//    public String showProductList(Model model) {
+//        model.addAttribute("nhanviens", nhanvienService.getAllNhanviens());
+//        return "/nhanviens/nhanvien-list";
+//    }
+    public String getNhanVien(Model model,
+                              @RequestParam(name = "page", defaultValue = "0") int page,
+                              @RequestParam(name = "size", defaultValue = "5") int size) {
+        Page<NHANVIEN> nhanVienPage = nhanvienService.findPaginated(page, size);
+        model.addAttribute("nhanviens", nhanVienPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", nhanVienPage.getTotalPages());
         return "/nhanviens/nhanvien-list";
     }
-
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("nhanvien", new NHANVIEN());
-        model.addAttribute("categories", PhongBanService.getAllPhongBan());
-        return "/products/add-nhanvien";
+        model.addAttribute("phongban", PhongBanService.getAllPhongBan());
+        return "/nhanviens/add";
     }
     // Process the form for adding a new product
     @PostMapping("/add")
     public String addProduct(@Valid NHANVIEN nhanvien, BindingResult result) {
         if (result.hasErrors()) {
-            return "/products/add-nhanvien";
+            return "/nhanviens/add";
         }
         nhanvienService.addNhanvien(nhanvien);
         return "redirect:/nhanviens/nhanviens";
